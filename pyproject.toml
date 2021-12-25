@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "birthday-bot"
+version = "0.1.0"
+description = "Keep track of your friends' birthdays!"
+authors = ["cs-gang"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+disnake = "^2.3.0"
+asyncpg = "^0.25.0"
+arrow = "^1.2.1"
+python-dotenv = "^0.19.2"
+loguru = "^0.5.3"
+
+[tool.poetry.dev-dependencies]
+black = "^21.12b0"
+pre-commit = "^2.16.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
