@@ -15,6 +15,6 @@ services:
     env_file:
       - .env
     volumes:
-      - '.:/src'
+      - './bdaybot:/bdaybot/bdaybot:ro'
     depends_on:
       - postgres

@@ -8,7 +8,7 @@ ENV PIP_NO_CACHE_DIR=false \
 RUN pip install -U poetry
 
 # Create the working directory
-WORKDIR /src
+WORKDIR /bdaybot
 
 # Install project dependencies
 COPY pyproject.toml poetry.lock ./
