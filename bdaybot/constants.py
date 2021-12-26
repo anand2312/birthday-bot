@@ -1,0 +1,3 @@
+"""Bot constants"""
+
+LOG_CHANNEL = 471746741964767244

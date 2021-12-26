@@ -2,6 +2,8 @@ version: '3.9'
 services:
   postgres:
     image: 'postgres:13-alpine'
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: bdaybot
       POSTGRES_PASSWORD: bdaybot
@@ -13,6 +15,6 @@ services:
     env_file:
       - .env
     volumes:
-      - '.:/bdaybot'
+      - '.:/src'
     depends_on:
       - postgres
