@@ -29,13 +29,20 @@ async def run_migration(conn: asyncpg.Connection, p: pathlib.Path) -> None:
         "INSERT INTO migrations(script_name, status, query_hash) VALUES($1, $2, $3)"
     )
     try:
-        await conn.execute(p.read_text())
+        raw_text = p.read_text()
+        queries = raw_text.split(
+            "\n\n"
+        )  # a blank line separates queries; cheap workaround
+
+        for query in queries:
+            await conn.execute(query)
+
     except Exception as e:
-        await conn.execute(log_query, p.name, 0, hash(p.read_text()))
+        await conn.execute(log_query, p.name, 0, str(hash(p.read_text())))
         logger.exception(f"Couldn't run script: {p.name}")
         traceback.print_tb(e.__traceback__)
     else:
-        await conn.execute(log_query, p.name, 1, hash(p.read_text()))
+        await conn.execute(log_query, p.name, 1, str(hash(p.read_text())))
         logger.info(f"Ran migration: {p}")
 
 
@@ -53,7 +60,7 @@ async def check_if_same(conn: asyncpg.Connection, p: pathlib.Path) -> bool:
     res = await conn.fetchrow(
         "SELECT * FROM migrations WHERE script_name = $1 AND query_hash = $2 AND status = 0",
         p.name,
-        hash(p.read_text()),
+        str(hash(p.read_text())),
     )
     return True if res else False
 
@@ -61,6 +68,13 @@ async def check_if_same(conn: asyncpg.Connection, p: pathlib.Path) -> bool:
 async def run_migrations(conn: asyncpg.Connection) -> None:
     """Entrypoint function."""
     logger.info("Running migrations")
+
+    try:
+        await conn.execute("SELECT 1 FROM migrations")
+    except asyncpg.exceptions.UndefinedTableError:
+        logger.warning("Migrations table not created; creating now...")
+        await create_migrations_table(conn)
+
     file_to_status = {}  # dict of file: status
     # status is 1 if it was run, 0 if it wasn't run
 

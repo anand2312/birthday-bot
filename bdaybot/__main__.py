@@ -10,7 +10,7 @@ from bdaybot import bot
 load_dotenv(pathlib.Path(__file__).parent.parent / ".env")
 
 
-EXTENSIONS = {"jishaku"}  # add more here as you go
+EXTENSIONS = {}  # add more here as you go
 
 for ext in EXTENSIONS:
     try:

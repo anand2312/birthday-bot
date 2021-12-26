@@ -24,6 +24,7 @@ class BirthdayBot(commands.Bot):
     async def on_ready(self) -> None:
         logger.success("Connected to Discord")
         await self._connect_db()
+        await self._run_migrations()
 
     async def _connect_db(self) -> None:
         """Connect to the database if it isn't already connected."""

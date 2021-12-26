@@ -18,4 +18,9 @@ def get_database_credentials() -> Mapping[str, str]:
     if production:
         return {"dsn": os.environ["DB_URI"]}
     else:
-        return {"user": "bdaybot", "database": "bdaybot", "password": "bdaybot"}
+        return {
+            "user": "bdaybot",
+            "database": "bdaybot",
+            "password": "bdaybot",
+            "host": "postgres",
+        }
