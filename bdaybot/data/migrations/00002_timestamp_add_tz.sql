@@ -1,0 +1,8 @@
+ALTER TABLE users
+DROP COLUMN birthday;
+
+ALTER TABLE users
+DROP COLUMN user_timezone;
+
+ALTER TABLE users
+ADD COLUMN birthday TIMESTAMP WITH TIME ZONE NOT NULL;
