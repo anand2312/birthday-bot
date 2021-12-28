@@ -24,7 +24,6 @@ async def create_migrations_table(conn: asyncpg.Connection) -> None:
 
 async def run_migration(conn: asyncpg.Connection, p: pathlib.Path) -> None:
     """Read a migration file and run it. If successful, log the result."""
-    # TODO: THESE SHOULD BE IN FUCKING TRANSACTIONS
     log_query = (
         "INSERT INTO migrations(script_name, status, query_hash) VALUES($1, $2, $3)"
     )
@@ -33,9 +32,9 @@ async def run_migration(conn: asyncpg.Connection, p: pathlib.Path) -> None:
         queries = raw_text.split(
             "\n\n"
         )  # a blank line separates queries; cheap workaround
-
-        for query in queries:
-            await conn.execute(query)
+        async with conn.transaction():
+            for query in queries:
+                await conn.execute(query)
 
     except Exception as e:
         await conn.execute(log_query, p.name, 0, str(hash(p.read_text())))
