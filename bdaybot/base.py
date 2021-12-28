@@ -6,6 +6,7 @@ import disnake
 from disnake.ext import commands
 from loguru import logger
 
+from bdaybot.constants import TEST_GUILDS
 from bdaybot.data.migrations import run_migrations
 from bdaybot.data.utils import get_database_credentials
 
@@ -16,6 +17,7 @@ class BirthdayBot(commands.Bot):
             command_prefix="b!",
             description="Remember your friends' birthdays!",
             intents=disnake.Intents.default(),
+            test_guilds=TEST_GUILDS,
             *args,
             **kwargs
         )

@@ -4,13 +4,11 @@ import pathlib
 from dotenv import load_dotenv
 from loguru import logger
 
-from bdaybot import bot
+from bdaybot import bot, EXTENSIONS
 
 
 load_dotenv(pathlib.Path(__file__).parent.parent / ".env")
 
-
-EXTENSIONS = {}  # add more here as you go
 
 for ext in EXTENSIONS:
     try:

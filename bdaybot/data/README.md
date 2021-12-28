@@ -5,6 +5,8 @@ Any changes to schema has to be added in a new `.sql` file and put in the `migra
 The migrations script (`bdaybot.data.migrations`) keeps track of the migrations. This is run automatically
 whenever the bot is run, and need not be run manually.
 
+Separate queries with a blank line in migration scripts.
+
 ## Schema
 ### Users
 ```
